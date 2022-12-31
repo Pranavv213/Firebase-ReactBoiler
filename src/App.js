@@ -33,12 +33,19 @@ function App() {
   };
 
   useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
+   // const getUsers = async () => {
+    //   const data = await getDocs(usersCollectionRef);
+     
+    //   setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    // };
 
-    getUsers();
+    // getUsers();
+    const unsubscribe=onSnapshot(usersCollectionRef,snapshot=>{
+      setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id})))
+    })
+    return ()=>{
+      unsubscribe();
+    }
   }, []);
 
   return (
